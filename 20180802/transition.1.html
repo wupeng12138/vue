@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+  <style>
+    .box{
+      width:100px;height:100px;background:red;position: absolute;left:100px;top:100px;
+      transition: .5s ease all;
+    }
+
+    /* transition过渡动画 */
+
+    /*入场前(打哪来) 1*/
+    .fade-enter{
+      opacity: 0;
+      left:0px;
+    }  
+    /* 离开场后(到哪去) 4*/
+		.fade-leave-active{
+      opacity: 0;
+      left:0px;
+    } 
+
+  </style>
+</head>
+<body>
+
+  <div id="app">
+
+    <input type="button" value="按钮" @click="conBox">
+
+    <transition
+      name="fade"
+    >
+      <div class="box" v-show="bl">box</div>
+    </transition>
+
+  </div>
+
+  <script>
+    let vm = new Vue({
+      el:"#app",
+      data:{
+        bl:false
+      },
+      methods: {
+        conBox(){
+          this.bl=!this.bl;
+        }
+      }
+    });
+  </script>
+  
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+
+<body>
+
+  <div id="app">
+    <h3>父组件</h3>
+
+    <div ref="d1">{{msg1}}</div>
+    <div>{{msg2}}</div>
+
+    <child ref="c1"></child>
+
+    <!-- {{this.$refs.d1.innerHTML}} -->
+    <br>
+    <!-- {{this.$refs.c1.msg2}} -->
+
+
+
+  </div>
+
+  <template id="child">
+    <div>
+      <h3>子组件</h3>
+      <div>{{msg2}}</div>
+      <div>{{this.$parent.msg1}}</div>
+    </div>
+  </template>
+
+  <script>
+    //定义组件
+    let child={
+      template:'#child',
+      data(){
+        return {
+          msg2:'子数据2'
+        }
+      },
+      methods:{
+        show(){console.log('子方法');}
+      },
+      mounted(){
+        // console.log(this.$parent);//抓取父
+        console.log(this.$parent.msg1);//抓取父
+        // this.$parent.show();//调用父方法
+      }
+    }
+
+
+    let vm = new Vue({
+      el: '#app',
+      data: {
+        msg1:'父数据1',
+        msg2:'空'
+      },
+      components:{
+        child
+      },
+      methods:{
+        show(){
+          console.log('父方法');
+        }
+      },
+      mounted(){
+        // console.log(this.$refs.d1,this.$refs.c1);
+        // console.log(this.$refs.子组件.msg2/方法);//抓取子组件数据
+        // this.$refs.c1.show(); 调用子方法
+        // console.log(this.$refs.c1.msg2);//抓取子组件数据
+        this.msg2=this.$refs.c1.msg2;
+      }
+      
+    });
+
+
+  </script>
+
+
+</body>
+
+</html>

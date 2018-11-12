@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+
+<body>
+
+  <div id="app">
+
+
+    <!-- <component is="aa"></component> -->
+    <input type="button" value="aa" @click="get('aa')">
+    <input type="button" value="bb" @click="get('bb')">
+    <component :is="com"></component>
+   
+  </div>
+
+  <template id="aa">
+    <div class="aa">
+      <h3>aa组件</h3>
+    </div>
+  </template>
+
+  <template id="bb">
+    <div class="bb">
+      <h3>bb组件</h3>
+    </div>
+  </template>
+
+
+  <script>
+
+    let aa = {
+      template: '#aa',
+    }
+    let bb = {
+      template: '#bb',
+    }
+
+
+    new Vue({
+      el: "#app",
+      data: {
+        com:'aa'
+      },
+      methods: {
+        get(val){this.com=val}
+      },
+      components: {
+        aa,bb
+      }
+    })
+  </script>
+</body>
+
+</html>

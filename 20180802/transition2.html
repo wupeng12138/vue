@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+  <style>
+    .box{
+      width:100px;height:100px;background:red;position: absolute;left:100px;top:100px;
+    }
+
+    /* animation 帧动画 */
+    .fadeIn{
+      animation: .5s fadeIn ease;
+    }
+    .fadeOut{
+      animation: .5s fadeOut ease;
+    }
+
+    @keyframes fadeIn{
+      0%{opacity: 0;left:0}
+      100%{opacity: 1;left:100px;}
+    }
+    @keyframes fadeOut{
+      from{opacity: 1;left:100px;}
+      to{opacity: 0;left:0}
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="app">
+
+    <input type="button" value="按钮" @click="conBox">
+
+    <transition
+      enter-active-class = "fadeIn"
+      leave-active-class = "fadeOut"
+    >
+      <div class="box" v-show="bl">box</div>
+    </transition>
+
+  </div>
+
+  <script>
+    let vm = new Vue({
+      el:"#app",
+      data:{
+        bl:false
+      },
+      methods: {
+        conBox(){
+          this.bl=!this.bl;
+        }
+      }
+    });
+  </script>
+  
+</body>
+</html>

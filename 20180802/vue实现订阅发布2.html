@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+
+<body>
+
+  <div id="app">
+    <h3>父组件</h3>
+
+    <aa></aa>
+    <bb></bb>
+    <cc></cc>
+
+  </div>
+
+  <template id="aa">
+    <div class="aa">
+      <h3>aa组件</h3>
+      <input type="button" value="给cc" @click="send">
+    </div>
+  </template>
+  
+  <template id="bb">
+    <div class="bb">
+      <h3>bb组件</h3>
+      <input type="button" value="给cc" @click="send">
+    </div>
+  </template>
+  
+  <template id="cc">
+    <div class="cc">
+      <h3>cc组件</h3>
+    </div>
+  </template>
+
+  <script>
+
+    let bulala=new Vue();//空vue实例
+
+
+    let cc={
+      template:'#cc',
+      mounted(){
+        
+        console.log('cc_mounted');
+        bulala.$on('from-aa',(data)=>{
+          console.log('from-aa',data);
+        });
+        bulala.$on('from-bb',(data)=>{
+          console.log('from-bb',data);
+        });
+      }
+    }
+
+    
+    let aa={
+      template:'#aa',
+      methods:{
+        send(){
+          // bulala.$emit('from-aa','aa组件的数据')
+        }
+      },
+      mounted(){
+        console.log('aa_mounted');
+        bulala.$emit('from-aa','aa组件的数据')
+      }
+    }
+    let bb={
+      template:'#bb',
+      methods:{
+        send(){
+          // bulala.$emit('from-bb','bb组件的数据')
+        }
+      },
+      mounted(){
+        console.log('bb_mounted');
+        bulala.$emit('from-bb','bb组件的数据')
+      }
+    }
+    
+    let vm = new Vue({
+      el: '#app',
+      data: {
+      },
+      components:{
+        aa,bb,cc
+      }
+      
+    });
+
+
+  </script>
+
+
+</body>
+
+</html>

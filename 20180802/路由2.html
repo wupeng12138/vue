@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+  <script src="./js/vue-router.js"></script>
+  <style>
+    .active {
+      background: #399
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="app">
+    <nav>
+      <router-link active-class="active" to="/home">首页</router-link>
+      <router-link active-class="active" to="/product">商品</router-link>
+      <router-link active-class="active" to="/login">登录</router-link>
+      <router-link active-class="active" to="/reg">注册</router-link>
+      <router-link active-class="active" to="/user">用户</router-link>
+    </nav>
+    <router-view></router-view>
+  </div>
+
+  <template id="home">
+    <div class="home">
+      <h3>首页</h3>
+    </div>
+  </template>
+
+  <template id="product">
+    <div class="product">
+      <h3>商品</h3>
+      <router-link to="/product/detail/001">列表001</router-link>
+      <router-link to="/product/detail/002?a=1&b=2">列表002</router-link>
+      <router-link :to="{name:'detail',params:{aid:'003'},query:{a:12,b:22}}">列表003</router-link>
+      <router-view></router-view>
+    </div>
+  </template>
+
+  <template id="user">
+    <div class="user">
+      <h3>用户</h3>
+    </div>
+  </template>
+
+  <template id="login">
+    <div class="login">
+      <h3>登录</h3>
+    </div>
+  </template>
+
+
+  <template id="reg">
+    <div class="reg">
+      <h3>注册</h3>
+    </div>
+  </template>
+
+  <template id="error">
+    <div class="error">
+      <h3>404</h3>
+    </div>
+  </template>
+
+  <template id="detail">
+    <div class="detail">
+      <h3>详情页</h3>
+      <div>参数：{{$route.params.aid}}</div>
+      <div>路径：{{$route.path }}</div>
+      <div>数据：{{$route.query }}</div>
+    </div>
+  </template>
+
+  <script>
+
+    //组件
+    let home = {
+      template: '#home'
+    }
+    let product = {
+      template: '#product'
+    }
+    let user = {
+      template: '#user'
+    }
+    let login = {
+      template: '#login'
+    }
+    let reg = {
+      template: '#reg'
+    }
+
+    let error = {
+      template: '#error'
+    }
+    let detail = {
+      template: '#detail',
+      created(){
+        console.log('兜库的参数',this.$route.params);
+        console.log('兜库的参数',this.$route.query);
+      },
+      beforeUpdate(){
+        console.log('兜库的参数',this.$route.params);
+        console.log('兜库的参数',this.$route.query);
+      }
+    }
+
+    //3. 配置路由
+    const routes = [
+      { path: '/home', component: home },
+      {
+        path: '/product',
+        component: product,
+        children: [
+          { name:'detail', path: 'detail/:aid', component: detail },
+        ]
+      },
+      { path: '/user', component: user },
+      { path: '/login', component: login },
+      { path: '/reg', component: reg },
+      // { path: '/', component:home }
+      { path: '/', redirect: '/home' },//路由跳转
+      { path: '*', component: error }
+    ];
+
+    //1.创建路由对象  //配置==数据==路由的配置
+    let router = new VueRouter({
+      // routes:数据/路由配置
+      routes: routes
+    });
+
+    let vm = new Vue({
+      el: '#app',
+      router: router//2. 注册到根实例
+    })  
+  </script>
+
+</body>
+
+</html>

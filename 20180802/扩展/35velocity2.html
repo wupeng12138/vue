@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="js/vue.js"></script>
+  <script src="js/velocity.min.js"></script>
+  <style>
+    .box{
+      width:100px;
+      height:100px;
+      font-size: 3em;
+      text-align:center;
+      line-height:100px;
+      font-family: 微软雅黑;
+      margin:0 auto;
+    }
+  </style>
+</head>
+<body>
+
+<div id="app">
+  <input type="button" value="按钮" @click="conBox">
+  <transition
+    @before-enter="beforeEnter"
+    @before-leave="beforeLeave"
+    @enter="enter"
+    @leave="leave"
+  >
+    <div v-if="bl" class="box">BOX</div>
+  </transition>
+</div>
+<script>
+  var vm=new Vue({
+    el:'#app',
+    data:{
+      bl:false
+    },
+    methods:{
+      conBox(){
+        this.bl=!this.bl;
+      },
+      beforeEnter(el){
+        console.log('beforeEnter');
+        el.style.opacity=0;
+        el.style.transformOrigin='left top';
+      },
+      enter(el){
+        console.log('enter');
+        Velocity(el,{
+          opacity:1
+        },{
+          duration:20,
+          loop:2,
+        });
+        Velocity(el,{
+          opacity:1
+        })
+      },
+      beforeLeave(el){
+        console.log('beforeLeave');
+        //el.style.transform='rotateZ(0deg)'
+      },
+      leave(el,done){
+        console.log('leave');
+        Velocity(el,{
+          rotateZ:'45deg'
+        });
+        Velocity(el,{
+          opacity:0,
+        },{
+          delay:1000
+        })
+      }
+    }
+
+  });
+
+</script>
+</body>
+</html>

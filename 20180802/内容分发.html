@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+
+<body>
+
+  <div id="app">
+
+    <child>
+      <h3 slot="s1">新闻</h3>
+      <a href="#" slot="s2">more</a>
+      <p>xxx</p>
+    </child>
+   
+  </div>
+
+  <template id="child">
+    
+    <div class="child">
+      <slot name="s1"></slot>
+      <ul>
+        <li>xxxxx</li>
+        <li>xxxxx</li>
+        <li>xxxxx</li>
+        <li>xxxxx</li>
+      </ul>
+      <slot name="s2"></slot>
+      <slot></slot>   
+      <!-- slot是vue自带组件 -->
+      <slot></slot>
+    </div>
+  </template>
+
+
+  <script>
+
+    let child = {
+      template: '#child',
+    }
+
+
+    new Vue({
+      el: "#app",
+      data: {},
+      methods: {
+        get(val){this.com=val}
+      },
+      components: {
+        child
+      }
+    })
+  </script>
+</body>
+
+</html>

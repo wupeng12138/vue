@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+  <style>
+    *,html,body{
+      overflow-x: hidden;
+    }
+    .box{
+      width:100px;height:100px;background:red;position: absolute;left:100px;top:100px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="app">
+
+    <input type="button" value="按钮" @click="conBox">
+
+    <transition
+
+      @before-enter="beforeEnter" 
+      @enter="enter"
+      @before-leave="beforeLeave"
+      @leave="leave"
+
+    >
+      <div class="box" v-show="bl">box</div>
+    </transition>
+
+  </div>
+
+  <script>
+    let vm = new Vue({
+      el:"#app",
+      data:{
+        bl:false
+      },
+      methods: {
+        conBox(){
+          this.bl=!this.bl;
+        },
+        enter(){
+          console.log('enter 动画交给第三方js库');
+        },
+        beforeEnter(){
+          console.log('beforeEnter 做一些设置元素的初始位置');
+        },
+        beforeLeave(){
+          console.log('beforeLeave 做一些设置元素的初始位置');
+        },
+        leave(){
+          console.log('leave 动画交给第三方js库');
+        }
+      }
+    });
+  </script>
+  
+</body>
+</html>

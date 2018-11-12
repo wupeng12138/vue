@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="js/vue.js"></script>
+  <script src="js/velocity.min.js"></script>
+  <style>
+    .box{
+      width:100px;
+      height:100px;
+      font-size: 3em;
+      text-align:center;
+      line-height:100px;
+      font-family: 微软雅黑;
+    }
+  </style>
+</head>
+<body>
+
+<div id="app">
+  <input type="button" value="按钮" @click="conBox">
+  <transition
+    @before-enter="beforeEnter"
+    @enter="enter"
+    @leave="leave"
+  >
+    <div v-show="bl" class="box">BOX</div>
+  </transition>
+</div>
+<script>
+  var vm=new Vue({
+    el:'#app',
+    data:{
+      bl:false
+    },
+    methods:{
+      conBox(){
+        this.bl=!this.bl;
+      },
+      beforeEnter(el){
+        console.log('beforeEnter');
+        el.style.opacity=0;
+      },
+      enter(el){
+        console.log('enter');
+        Velocity(el,{
+          opacity:1
+        });
+      },
+      leave(el,done){
+        console.log('leave');
+        Velocity(el,{
+          opacity:0
+        });
+      }
+    }
+
+  });
+
+</script>
+</body>
+</html>

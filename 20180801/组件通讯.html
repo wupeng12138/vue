@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+
+<body>
+
+  <div id="app">
+    <h3>父组件</h3>
+
+    <div>{{msg1}}</div>
+
+    <child :msg1="msg1" :msg3="msg3"></child>
+    <!-- ':'是数据绑定没有:会输出""里面的内容 -->
+  </div>
+
+  <template id="child">
+    <div>
+      <h3>子组件</h3>
+      <div>{{msg2}}</div>
+      <div>{{msg1}}</div>
+      <div>{{msg3}}</div>
+    </div>
+  </template>
+
+  <script>
+    //定义组件
+    let child={
+      template:'#child',
+      data(){
+        return {
+          msg2:'子数据2'
+        }
+      },
+      props:['msg1','msg3']
+    }
+
+
+    let vm = new Vue({
+      el: '#app',
+      data: {
+        msg1:'父数据1',
+        msg3:'父数据3'
+      },
+      components:{
+        child
+      }
+      
+    });
+
+
+  </script>
+
+
+</body>
+
+</html>

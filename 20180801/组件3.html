@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+
+<body>
+
+  <div id="app">
+
+    <hd></hd>
+
+    <!-- 组件名不能使用小驼峰 -->
+    <warp-aa-bb></warp-aa-bb>
+
+    <ft></ft>
+
+  </div>
+
+  <script>
+
+    //定义组件
+    let hd = {
+      name: 'v-header',
+      template: '<div>我是header组件{{msg}}</div>',
+      data() {
+        return {
+          msg: 'hd组件数据'
+        }
+      }
+    };
+    let ft = {
+      name: 'v-footer',
+      template: '<div @click="show">我是footer组件</div>',
+      methods:{
+        show(){
+          alert('ft组件的方法')
+        }
+      }
+    };
+    let WrapAaBb = {
+      template: '<div><div>我是v-wrap-aa-bb组件</div><p>xx</p></div>'
+    };
+
+    Vue.component('ft', ft);//注册 全局
+
+
+    let vm = new Vue({
+      name: 'app',
+      el: '#app',
+      data: {
+        msg: '根实例数据'
+      },
+      components: {
+        hd,
+        'warp-aa-bb': WrapAaBb
+      }
+    });
+
+
+  </script>
+
+
+</body>
+
+</html>

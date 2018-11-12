@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+
+<body>
+
+  <!-- V  -->
+  <div id="app">
+
+    <!-- 数据绑定 指令 -->
+
+    <h3>{{title}}</h3>
+
+    <ul>
+
+      <li v-for="val in arr">
+        {{val}}
+      </li>
+
+    </ul>
+
+    <hr>
+
+    <ul>
+      <li v-for="(val,index) in arr">
+        {{val}}/{{index}}
+      </li>
+    </ul>
+
+    <hr>
+
+    <ul>
+      <li v-for="(item,index) in arr2">
+        <span>{{item.id}}</span>/{{item.title}}/{{item.des}}/{{index}}
+      </li>
+    </ul>
+
+    <hr>
+
+
+    <ul>
+      <li v-for="(item,index) in arr3">
+        <a href="#">{{item.id}}/{{item.title}}/{{item.des}}/{{index}}</a>
+        <ol>
+          <li v-for="(item,index) in item.content">
+            {{item.id}}/{{item.title}}/{{item.des}}/{{index}}
+          </li>
+        </ol>
+      </li>
+    </ul>
+
+
+
+  </div>
+
+  <script>
+    //VM 实例
+    let vm = new Vue({
+      //选项
+      el: '#app',
+      data: { //M
+        title: '列表渲染',
+        num: 110,
+        arr: ['apple', 'banana', 'orange', 'pear'],
+        arr2: [
+          { id: 1, title: 'xxx', des: 'ooo' },
+          { id: 2, title: 'xxx2', des: 'ooo2' }
+        ],
+        arr3: [
+          {
+            id: 1, title: 'xxx', des: 'ooo', content: [
+              { id: 1, title: 'c-xx1', des: 'c-oo1' },
+              { id: 2, title: 'c-xx2', des: 'c-oo2' },
+            ]
+          },
+          { id: 2, title: 'xxx2', des: 'ooo2' }
+        ],
+        json: { a: 1, b: 2 },
+        bl: false,
+        fn: function () { alert('ok') },
+        nu: null,
+        un: undefined,
+        strong: '<strong>徐怕</strong>',
+        src: 'https://cn.vuejs.org/images/logo.png'
+      }
+    });
+
+
+  </script>
+</body>
+
+</html>

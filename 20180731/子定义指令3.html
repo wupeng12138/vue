@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+
+</head>
+<body>
+    <div id="app">
+        <div v-color>box</div>
+        <div>box</div>
+        <div v-color="'yellow'">box</div>
+        <div v-color="'blue'">box</div>
+
+    </div>
+    
+</body>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        directives:{
+            color(el,binding){      //这个color函数定义到了app这个选项里,只有id="app"能用
+                // el.style.background=binding.value || 'red';
+
+                let v = binding.value || "red";
+                $(el).css('background',v);
+            }
+        }
+    })
+
+
+</script>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+
+</head>
+
+<body>
+  <div id="app">
+    {{ 3.141592638652183746253 | number }}
+    <br> {{ 34.245 | currency }}
+    <br> {{ 34.245 | currency('￥',1) }} 
+    <br>
+    {{ 34.245 | currency('RMB') }}
+  </div>
+
+  <script>
+
+    Vue.filter('number', (data) => {
+      console.log('过滤器运行了', data);
+      // return '过滤后的值'
+      return data.toFixed(2);
+    });
+
+    new Vue({
+      el: "#app",
+      data: {},
+      filters: {
+        currency(data, currency='$', digit=2) {
+          // currency = currency || '$';
+          // digit = digit || 2;
+          return currency + data.toFixed(digit);
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

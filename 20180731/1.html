@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+  <script src="./js/vue-resource.js"></script>
+</head>
+
+<body>
+
+  <div id="app">
+    <div>
+      {{msg1}}
+    </div>
+    <div>
+      {{msg2}}
+    </div>
+
+    {{ fn() }} {{msg3}}
+    <hr>
+
+    <input type="button" value="按钮" @click="check">
+
+   <span v-pre>{{ this will not be compiled }}</span>      <!--  v-pre原样输出 -->
+    <pre>                       
+      我是一个兵
+         来自老百姓
+
+    </pre>
+
+    <hr>
+
+    <span v-once>{{msg1}}/{{msg2}}</span>       
+    <!-- v-once只渲染一次 -->
+    <h3>template</h3>
+
+    <!-- v-for循环   template逻辑块 -->
+    <template v-for="n in 5">
+      <div>green</div>
+      <div>red</div>
+    </template>
+
+    <ul>
+      <li v-for="val of items">{{val}}</li>
+    </ul>
+
+
+  </div>
+
+
+  <script>
+    let vm = new Vue({
+      el: '#app',
+      data: {
+        msg1: '数据1',
+        msg2: '数据2',
+        msg3: '',
+        fn: function () {
+          this.msg3='bmw';
+        },
+        items: [{a:1}, 'b', 'c']
+      },
+      methods: {
+        check() {
+          // this.msg3 = Math.random();
+
+          // console.log(this.$el);//访问实例(vm)的实例属性
+
+          this.$set(this.items,'0','aa');
+          Vue.set(this.items,'1','bb');
+
+        }
+      }
+    })
+
+  </script>
+</body>
+
+</html>

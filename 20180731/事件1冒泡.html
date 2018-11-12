@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+<body>
+  
+  <div id="app">
+    {{msg1}}
+    <div @click="show2">
+      <!-- <input type="button" value="按钮" @click="show"> -->
+      <input type="button" value="按钮" @click.stop="show">
+    </div>
+  </div>
+
+  <script>
+    
+    let vm=new Vue({
+      data:{
+        msg1:'数据1'
+      },
+      methods:{
+        show(ev){
+          console.log('button');
+          // ev.cancelBubble=true;  01
+          // ev.stopPropagation(); 02
+        },
+        show2(ev){
+          console.log('div');
+        }
+      }
+    });
+
+    vm.$mount('#app');//手动挂载
+
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+  <style>
+    .drag {
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: red;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="app">
+
+    <div class="drag" v-drag> box </div>
+
+    <!-- {{show()}} -->
+    <p>x</p>
+    <p>x</p>
+    <p>x</p>
+    <p>x</p>
+    <p>x</p>
+    <p>x</p>
+    <p>x</p>
+    <p>x</p>
+    <p>x</p>
+    <p>x</p>
+    <p>x</p>
+    <p>x</p>
+    {{vm.ipt}}  <!-- 需要在53行加个vm:this -->
+    {{ipt}}     <!-- 可以直接调用 -->
+    
+  </div>
+
+  <script>
+
+    let vm = new Vue({
+      el: '#app',
+      data: {
+        ipt: 'qq',
+        vm:this
+      },
+      methods:{
+        show:()=>{
+          console.log(this);
+        }
+      },
+      directives: {
+        drag: function(el) {
+        //   console.log(vm);
+          el.onmousedown = function (ev) {
+            var disX = ev.clientX - el.offsetLeft;
+            var disY = ev.clientY - el.offsetTop;
+            document.onmousemove = function (ev) {
+              el.style.left = ev.clientX - disX + 'px';
+              el.style.top = ev.clientY - disY + 'px';
+            }
+            document.onmouseup = function (ev) {
+              document.onmousemove = document.onmouseup = null;
+            }
+            return false;
+          };
+        }
+      }
+    })
+
+
+  </script>
+</body>
+
+</html>

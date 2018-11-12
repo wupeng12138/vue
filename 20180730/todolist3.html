@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+
+</head>
+
+<body>
+
+  <div id="app">
+    <input type="text" v-model="user">
+    <br>
+    <input type="text" v-model="content">
+    <br>
+    <input type="text" v-model="search" placeholder="搜索">
+    <input type="button" value="提交" @click="add">
+    <ul>
+      <li
+        v-for="(item,index) in list"
+        :key="item.id"
+      >
+        <span>{{item.des}}</span> --
+        <i>{{item.name}}</i>
+        <a href="javascript:;" @click="del(index)">删除</a>
+        <a href="javascript:;" @click="check(index,$event)">修改</a>
+      </li>
+    </ul>
+    <hr>
+    <ul>
+      <li
+        v-for="(item,index) in cptList"
+        :key="item.id"
+      >
+        <span>{{item.des}}</span> --
+        <i>{{item.name}}</i>
+      </li>
+    </ul>
+  </div>
+  
+  <script>
+    let vm = new Vue({
+      el:'#app',
+      data:{
+        user:'',
+        content:'',
+        search:'',
+        list:[
+          {id:1,name:'嘻游记',des:'oo'},
+          {id:2,name:'红楼梦',des:'oo2'},
+          {id:3,name:'三国演义',des:'oo3'},
+          {id:4,name:'金瓶梅',des:'oo4'},
+        ],
+        activeObj:null
+      },
+      methods:{
+        add(ev){
+          this.list.push({
+            name:this.user,
+            des:this.content
+          });
+          this.user=this.content='';
+        },
+        del(index){
+          this.list.splice(index,1);
+        },
+        check(index,ev){
+          this.list[index].des='修改了';//哦了
+          // console.log(ev.target.parentNode);
+          ev.target.parentNode.style.background='red'; //操作dom ,通过数据  作业
+        }
+      },
+      computed:{
+        cptList(){
+          // console.log(this.search);
+          let result=[];
+          this.list.forEach((item,index)=>{
+            if(
+              item.name.indexOf(this.search) != -1 ||
+              item.des.indexOf(this.search) != -1     //按照name和des去搜索
+            ){
+              result.push(item)
+            }
+          });
+          return result;
+        }
+      }
+    })
+  </script>
+
+</body>
+
+</html>

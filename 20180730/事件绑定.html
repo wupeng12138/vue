@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+
+<body>
+
+  <!-- V  -->
+  <div id="app">
+
+    <!-- 数据绑定 指令 -->
+
+    <h3>{{title}}</h3>
+
+    <input type="button" value="按钮1" onclick="alert('ok1')">
+    <!-- <input type="button" value="按钮2" v-on:click="alert('ok2')"> -->
+    <input type="button" value="按钮3" v-on:click="fn">
+    
+    <!-- 事件绑定 v-on:不带on的原生事件="VUE函数" -->
+    <!-- <input type="button" value="按钮4" v-on:click="bulala"> -->
+    <input type="button" value="按钮4" @click="bulala1">
+    <input type="button" value="按钮5" @click="bulala2(12,$event)">
+
+    <input type="button" value="修改model数据" @click="checkTitle">
+
+  </div>
+
+  <script>
+    //VM 实例
+    let vm = new Vue({
+      //选项
+      el: '#app',
+      data: { //M
+        title: '列表渲染',
+        fn:function(){alert('ok3')}
+      },
+      methods:{
+        bulala1:function(ev){
+          console.log('bulala1',ev);//事件对象
+        },
+        bulala2:function(arg,ev){
+          console.log('bulala',arg,ev);//事件对象
+        },
+        checkTitle:function(){
+          console.log(this);
+          this.title='改了呀';//修改model的数据
+        }
+      }
+    });
+
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+<body>
+  
+  <div id="app">
+    <input type="text" v-model="ipt">
+  </div>
+  <script>
+    let vm = new Vue({
+      el:'#app',
+      data:{ipt:'bmw5'},
+      beforeCreate(){
+        console.log('beforeCreate',this.ipt)
+      },
+      created(){
+        console.log('created',this.ipt);
+      },
+      beforeMount(){console.log('beforeMount');},
+      mounted(){console.log('mounted');},
+      beforeUpdate(){console.log('beforeUpdate');},
+      updated(){console.log('updated');},
+      beforeDestroy(){console.log('beforeDestroy');},
+      destroyed(){console.log('destroyed');},
+// beforeCreate（创建前）,
+
+// created（创建后）,
+
+// beforeMount(载入前),
+
+// mounted（载入后）,
+
+// beforeUpdate（更新前）,
+
+// updated（更新后）,
+
+// beforeDestroy（销毁前）,
+
+// destroyed（销毁后）
+    })
+  </script>
+</body>
+</html>

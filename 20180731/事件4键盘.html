@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+<body>
+  
+  <div id="app">
+      <!-- <input type="text" @keydown="show"> -->
+      <!-- <input type="text" @keyup.13="show"> -->
+      <!-- <input type="text" @keyup.enter="show"> -->
+      <!-- <input type="text" @keyup.enter.ctrl="show"> -->
+      <input type="text" @keyup.enter.ctrl.exact="show">
+      <!-- <input type="text" @input="show"> -->
+      <ul>
+        <li v-for="val of list">{{val}}</li>
+      </ul>
+  </div>
+
+  <script>
+    
+    let vm=new Vue({
+      data:{
+        msg1:'数据1',
+        list:['aa','bb']
+      },
+      methods:{
+        show(ev){
+          // console.log(ev.target.value);
+          // this.list.push(ev.target.value);
+          /* if(ev.keyCode===13){
+            this.list.push(ev.target.value);
+            ev.target.value='';
+          } */
+
+          this.list.push(ev.target.value);
+            ev.target.value='';
+        }
+      }
+    });
+
+    vm.$mount('#app');//手动挂载
+
+
+  </script>
+</body>
+</html>

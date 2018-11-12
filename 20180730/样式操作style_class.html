@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+  <style>
+  .bg{
+    background: red;
+  }
+  .w{width:250px;}
+  </style>
+</head>
+
+<body>
+
+  <!-- V  -->
+  <div id="app">
+
+    <!-- 数据绑定 指令 -->
+
+    <h3>{{title}}</h3>
+
+    <div class="bg w">box</div>
+    <div v-bind:class="c1">box</div>
+    <div v-bind:class="'bg w'">box</div>
+    <div class="bg">box</div>
+    <div class="bg" :class="{w:bl}">box</div>
+    <div :class="c2">box c2</div>
+    <div :class="c3">box c3</div>
+
+    <hr>
+
+    <div style="background: red;width:250px">box style</div>
+    <div :style="'background: red;width:250px'">box style</div>
+    <div :style="s1">box style string</div>
+    <div :style="'background: red;width:250px'">box style string</div>
+    <div :style="{background:'red',width:'250px'}">box style json</div>
+    <div :style="[{background:'red'},{width:'250px'}]">box style arr</div>
+
+  </div>
+
+  <script>
+    //VM 实例
+    let vm = new Vue({
+      //选项
+      el: '#app',
+      data: { //M
+        title: '条件渲染',
+        c1:'bg w',
+        bl:true,
+        c2:{bg:true,w:true},
+        c3:[
+          {bg:true},
+          {w:false}
+        ],
+        s1:'background: red;width:250px'
+      }
+    });
+
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+
+<body>
+
+  <!-- V  -->
+  <div id="app">
+
+    <!-- 数据绑定 指令 -->
+
+    <h3>{{title}}</h3>
+
+    <!-- v-show="布尔" 			v-if="布尔"
+    区别:	操作css					操作dom
+    场景:	适合频繁切换		    适合不频繁切换
+    性能:	初始渲染消耗			频繁切换有消耗 -->
+    <div v-show="bl">box1</div>   
+    <div v-if="bl">box2</div>
+    <div v-show="b2">box3</div>   
+    <div v-if="b2">box4</div>
+    <hr>
+
+    <div v-show="bl2">undefined</div>
+    <div v-show="bl3">null</div>
+    <div v-show="bl4">0</div>
+    <div v-show="bl5">1</div>
+
+  </div>
+
+  <script>
+    //VM 实例
+    let vm = new Vue({
+      //选项
+      el: '#app',
+      data: { //M
+        title: '条件渲染',
+        bl: true,
+        b2: false,
+        bl2:undefined,
+        bl3:null,
+        bl4:0,
+        bl5:1
+      }
+    });
+
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,261 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>666</title>
+<link rel="stylesheet" href="./Css/index.css" />
+<style>
+    .showoff{display: block;}
+    #close{
+        margin-left: 240px;
+        font-size: 20px;
+        color: gray;
+        text-decoration: none;
+    }
+    #content{
+        width: 300px;
+        height: 100px;
+    }
+</style>
+</head>
+<script src="js/vue.js"></script>
+<script src="js/vue-resource.js"></script>
+<script src="js/ajax.js"></script>
+<body>
+<div id="app">
+    <div id="top">
+        <span id="send" @click="wish"></span>
+    </div>
+    <div id="main">
+        <dl  v-for="(item,index) in list"
+        :key="item.id" :class="item.cls" :style="item.pos" 
+        >
+            <dt v-move="item.id">
+                <span class="username">{{item.username}}</span>
+                <span class="num">{{item.id}}</span>
+            </dt>
+            <dd class="content" v-html="item.content"></dd>
+            <dd class="bottom">
+                <span class="time">{{item.time}}</span>
+                <a href="javascript:;" class="close" @click="remove(item.id,index)"></a>
+            </dd>
+        </dl>
+    </div>
+
+    <div class="send-form" :class="cl">
+        <p class="title"><span>许下你的愿望</span><a href="javascript:;" id="close" @click="close">x</a></p>
+        <form action="" name="wish">
+            <p>
+                <label for="username">昵称：</label>
+                <input type="text" name="username" id="username" v-model="username"/>
+            </p>
+            <p>
+                <label for="content">愿望：(您还可以输入&nbsp;<span id="font-num">{{num}}</span>&nbsp;个字)</label>
+                <textarea name="content" id="content" maxlength="50" v-model="content" @input="change"></textarea>
+                <div id="phiz" @click="facial">
+                    <img src="./Images/phiz/zhuakuang.gif" alt="抓狂" />
+                    <img src="./Images/phiz/baobao.gif" alt="抱抱" />
+                    <img src="./Images/phiz/haixiu.gif" alt="害羞" />
+                    <img src="./Images/phiz/ku.gif" alt="酷" />
+                    <img src="./Images/phiz/xixi.gif" alt="嘻嘻" />
+                    <img src="./Images/phiz/taikaixin.gif" alt="太开心" />
+                    <img src="./Images/phiz/touxiao.gif" alt="偷笑" />
+                    <img src="./Images/phiz/qian.gif" alt="钱" />
+                    <img src="./Images/phiz/huaxin.gif" alt="花心" />
+                    <img src="./Images/phiz/jiyan.gif" alt="挤眼" />
+                </div>
+            </p>
+            <span id="send-btn" @click="publish"></span>
+        </form>
+    </div>
+</div>
+<script>
+    let vm = new Vue({
+        el:"#app",
+        data:{
+            cl: {showoff:false},
+            username:"",
+            content:"",
+            list:[],
+            num:50,
+            pos:""
+        },
+        mounted(){
+            this.get();
+        },
+        directives:{
+            move(el,binding){
+                el.onmousedown = function(ev){
+                    var disX = ev.offsetX;
+                    var disY = ev.offsetY;
+                    var elArr = el.parentNode.parentNode.children;
+                    var max = 0;
+                    for(var i=0;i<elArr.length;i++){
+                        var str1 = elArr[i].attributes.style.textContent;
+                        var str2 = str1.slice(parseInt(str1.indexOf('index'))+7,str1.length-1)-0;
+                        if(isNaN(str2)){
+                            elArr[i].style.zIndex = 1;
+                            str2 = 1;
+                        }
+                        max = max < str2 ? str2 : max;
+                    }
+                    el.parentNode.style.zIndex = max+1;
+                    document.onmousemove = function(ev){
+                        el.parentNode.style.left = ev.pageX - disX + 'px';
+                        el.parentNode.style.top = ev.pageY - disY -126 + 'px';
+                    }
+                    document.onmouseup = function(){
+                        document.onmouseup = document.onmousemove = null;
+                        var oleft = el.parentNode.offsetLeft;
+                        var otop = el.parentNode.offsetTop;
+                        var str = `left:${oleft}px;top:${otop}px`;
+                        getAjax(`wish.php?act=update&id=${binding.value}&pos=${str}`).then(function(res){
+                            console.log(res);
+                        })
+                    }
+                    return false;
+                }
+            },
+        },
+        methods:{
+            close(){
+                this.cl.showoff = false;
+            },
+            remove(id,index){
+                this.$http({
+                    url:"wish.php",
+                    params:{
+                        act:"delete",
+                        id: id
+                    }
+                }).then(
+                    res =>{
+                        this.list.splice(index,1);
+                    }
+                )
+            },
+            facial(ev){
+                if(ev.target.nodeName=="IMG"){
+                    var adds = "#"+ev.target.alt+"#"
+                    if(this.content.length<=(50-adds.length)){
+                        this.content = this.content+adds;
+                        this.num = 50 - this.content.length;
+                    }
+                }
+            },
+            change(){
+                this.num = 50 - this.content.length;
+            },
+            get(){
+                this.$http({
+                url:"wish.php",
+                params:{
+                        act:"get"
+                    }
+                }).then(
+                    res => {
+                        var start = res.bodyText.indexOf('[');
+                        var end = res.bodyText.indexOf(']')+1;
+                        var arr = JSON.parse(res.bodyText.substring(start,end));
+                        for(var i in arr){
+                            arr[i].cls = "paper a"+Math.round(Math.random()*4+1);
+                            arr[i].time = this.nowTime(arr[i].time);
+                            arr[i].content = this.facialAdd(arr[i].content);
+                        }
+                        this.list = arr;
+                    } 
+                )
+            },
+            facialAdd(content){
+                var arr = content.split("#");
+                for(var i in arr){
+                    switch(arr[i]){
+                        case "太开心" :
+                            arr[i] = '<img src="./Images/phiz/taikaixin.gif" alt="挤眼" />';
+                        break;
+                        case "酷" :
+                            arr[i] = '<img src="./Images/phiz/ku.gif" alt="挤眼" />';
+                        break;
+                        case "钱" :
+                            arr[i] = '<img src="./Images/phiz/qian.gif" alt="挤眼" />';
+                        break;
+                        case "害羞" :
+                            arr[i] = '<img src="./Images/phiz/haixiu.gif" alt="挤眼" />';
+                        break;
+                        case "抓狂" :
+                            arr[i] = '<img src="./Images/phiz/zhuakuang.gif" alt="挤眼" />';
+                        break;
+                        case "嘻嘻" :
+                            arr[i] = '<img src="./Images/phiz/xixi.gif" alt="挤眼" />';
+                        break;
+                        case "偷笑" :
+                            arr[i] = '<img src="./Images/phiz/touxiao.gif" alt="挤眼" />';
+                        break;
+                        case "抱抱" :
+                            arr[i] = '<img src="./Images/phiz/baobao.gif" alt="挤眼" />';
+                        break;
+                        case "花心" :
+                            arr[i] = '<img src="./Images/phiz/huaxin.gif" alt="挤眼" />';
+                        break;
+                        case "挤眼" :
+                            arr[i] = '<img src="./Images/phiz/jiyan.gif" alt="挤眼" />';
+                        break;
+                    }
+                }
+                return arr.join("");
+            },
+            nowTime(time){
+                var nTime = new Date();
+                var nd = nTime.getDate();
+                var nh = nTime.getHours();
+                var oTime = new Date(time*1000);
+                var y = oTime.getFullYear();
+                var m = oTime.getMonth()+1;
+                var d = oTime.getDate();
+                var h = oTime.getHours();
+                var mm = oTime.getMinutes();
+                var gap = (nTime.getTime()-time*1000)/1000/60/60;
+                if(gap>nh&&(gap-nh)<=24){
+                    return '昨天' + ' ' + add0(h)+':'+add0(mm);
+                }else if(gap<=nh){
+                    return '今天' + ' ' + add0(h)+':'+add0(mm);
+                }else{
+                    return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm);
+                }
+                function add0(argu){
+                    return argu<10 ? '0'+argu : argu ;
+                }
+            },
+            wish(){
+                this.cl.showoff = true;
+            },
+            publish(){
+                this.pos = `left:${Math.round(Math.random()*1000)}px;top:${Math.round(Math.random()*450)}px`;
+                this.$http({
+                    url:`wish.php`,
+                    params:{
+                        act:"add",
+                        username:this.username,
+                        content:this.content,
+                        pos:this.pos
+                    }
+                }).then(
+                    res => {
+                        this.cl.showoff = false;
+                        this.content = "";
+                        this.username = "";
+                        this.get();
+                    }
+                )
+            }
+        }
+    })
+</script>
+<!--[if IE 6]>
+<script type="text/javascript" src="./Js/iepng.js"></script>
+<script type="text/javascript">
+    DD_belatedPNG.fix("#send,#close,.close","background");
+</script>
+<![endif]-->
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+
+<body>
+
+  <!-- V  -->
+  <div id="app">
+
+    <!-- 数据绑定 指令 -->
+
+    <h3>{{title}}</h3>
+
+    <div>{{ num + 9 }}</div>
+
+    <div>{{ bl ? '没处理过':'处理过的' }}</div>
+
+    <div>{{ obj.a }}</div>
+
+    <div>{{ str.split(' ').reverse().join(' ') }}</div>
+
+    <!-- <div>{{ if(bl){return 'bmw'}}}</div> -->
+
+    <div>{{ bl && 'bmw'}}</div>
+
+    <div>{{ fn() }}</div>
+
+  </div>
+
+  <script>
+    //VM 实例
+    let vm = new Vue({
+      //选项
+      el: '#app',
+      data: { //M
+        title: '列表渲染',
+        num:100,
+        bl:true,
+        obj:{a:1},
+        str:'i love you',
+        fn:function(){return 'qq'}
+      }
+    });
+
+
+  </script>
+</body>
+
+</html>

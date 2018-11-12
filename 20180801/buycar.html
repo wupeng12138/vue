@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+
+<body>
+
+  <div id="app">
+    
+    <div>酱油</div>
+    <buycar></buycar>
+    <div>酱油</div>
+
+  </div>
+
+  <template id="buycar">
+    <div class="buycar">
+      <h3>结算</h3>
+      <dl v-for="(item,index) of list" :key="item.id">
+        <dt>商品名称:{{item.name}}</dt>
+        <dd>单价:{{item.price | currency('￥',0)}}</dd>
+        <dd>数量:
+          <input type="number" min=0 v-model="item.count">
+        </dd>
+        <dd>小计:{{item.price * item.count | currency('$',3)}}</dd>
+      </dl>
+      总价:{{sum | currency('冥币',4)}}
+    </div>
+  </template>
+
+  <script>
+
+    let buycar = {
+      data() {
+        return {
+          list: [
+            { id: 1, name: '西红柿', price: 3.0, count: 1.0 },
+            { id: 2, name: '鸡蛋', price: 3.0, count: 2.0 },
+            { id: 3, name: '花瓜', price: 4.0, count: 3.0 }
+          ]
+        }
+      },
+      filters: {
+        currency(data, currency = '$', digit = 2) {
+          return currency + data.toFixed(digit);
+        }
+      },
+      template:"#buycar",
+      computed: {
+        sum() {
+          let result = 0;
+          this.list.map((item, index) => {
+            result += item.price * item.count;
+          })
+          return result;
+        }
+      }
+    };
+
+
+    let vm = new Vue({
+      name: 'app',
+      el: '#app',
+      data: {
+        msg: '根实例数据'
+      },
+      components: {         //组件注册
+        buycar
+      }
+    });
+
+
+  </script>
+
+
+</body>
+
+</html>

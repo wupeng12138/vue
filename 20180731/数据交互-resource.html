@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+  <script src="./js/vue-resource.js"></script>
+
+</head>
+
+<body>
+  <div id="buycar">
+
+    <input type="button" value="读取静态数据json" @click="getStatic">
+    <input type="button" value="读取接口数据get" @click="getPhp">
+    <input type="button" value="读取接口数据post" @click="postPhp">
+    <input type="button" value="jsonp" @click="jsonp">
+    
+  </div>
+
+  <script>
+    let vm = new Vue({
+      el: '#buycar',
+      data: {
+        user:{}
+      },
+      methods: {
+        getStatic() { 
+
+          /* let p1= this.$http({
+            url:'/data/user.json'
+          });
+          
+          // console.log(p1);//做点其他的事
+
+          p1.then(
+            (res)=>{console.log('res',res);},
+            (err)=>{console.log('err',err);}
+          )
+ */
+          
+
+          this.$http({
+            url:'/data/user.json'
+          }).then(
+            res=>this.user=res.body  //箭头函数只有一行时可以省略
+          )
+
+        },
+        getPhp() { 
+          this.$http({
+            url:'get.php',
+            params:{
+              a:1,b:2
+            }
+          }).then(
+            res=>console.log(res.body)
+          )
+        },
+        postPhp() { 
+          this.$http({
+            url:'post.php',
+            method:'post',
+            headers:{
+              'Content-Type':'application/x-www-form-urlencoded'
+            },
+            emulateJSON:true,
+            // body:'a=1&b=2'
+            body:{a:11,b:22}
+          }).then(
+            res=>console.log(res.body)
+          )
+        },
+        jsonp() {
+          this.$http.jsonp(
+            'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=aaa',
+            {
+              jsonp:'cb',
+              // timeout:10000,
+              // jsonpCallback:'show'
+            }
+          ).then(
+            res=>console.log(res)
+          );
+
+          this.$http.jsonp(
+            'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=bbb',
+            {
+              jsonp:'cb',
+              // timeout:10000,
+              // jsonpCallback:'show'
+            }
+          ).then(
+            res=>console.log(res)
+          )
+
+
+        },
+      }
+    })
+  </script>
+</body>
+
+</html>

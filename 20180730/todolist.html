@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+
+</head>
+
+<body>
+
+  <div id="app">
+    <input type="text" v-model="user">
+    <br>
+    <input type="text" v-model="content">
+    <br>
+    <input type="button" value="提交" @click="add">
+    <ul>
+      <li
+        v-for="(item,index) in list"
+      >
+        <span>{{item.des}}</span> --
+        <i>{{item.name}}</i>
+        <a href="javascript:;" @click="del(index)">删除</a>
+        <a href="javascript:;" @click="check(index)">修改</a>
+        <!-- javascript: 是一个伪协议，其他的伪协议还有 mail:  tel:  file:  等等。
+        其中javascript:是伪协议，它可以通过一个链接来调用javascript函数.而采用这个方式 javascript:;可以实现a标签的点击事件运行时，如果页面内容很多，有滚动条时，页面不会乱跳，用户体验更好。 -->
+      </li>
+    </ul>
+  </div>
+  
+  <script>
+    let vm = new Vue({
+      el:'#app',
+      data:{
+        user:'',
+        content:'',
+        list:[
+          {name:'xx',des:'oo'},
+          {name:'xx2',des:'oo2'},
+        ],
+        activeObj:null   //获焦?? 不知道有什么用
+      },
+      methods:{
+        add(ev){
+          this.list.push({
+            name:this.user,
+            des:this.content
+          });
+          this.user=this.content='';
+        },
+        del(index){
+          this.list.splice(index,1);
+        },
+        check(index){
+          this.list[index].des='修改了';//哦了
+          
+        }
+      }
+    })
+  </script>
+
+</body>
+
+</html>

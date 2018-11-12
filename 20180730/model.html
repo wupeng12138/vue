@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+
+<body>
+
+  <!-- V  -->
+  <div id="app">
+
+    <!-- 数据绑定 mustache -->
+
+    <h3>{{title}}</h3>
+    <div>num:{{num + 9 }}</div>
+    <div>arr:{{arr}}</div>
+    <div>arr2:{{arr2}}</div>
+    <div>json:{{json}}</div>
+    <div>bl:{{bl}}</div>
+    <div>un:{{un}}</div>
+    <div>nu:{{null}}</div>
+    <div>function:{{fn}}</div>
+    <div>function:{{fn()}}</div>
+
+    <div v-text="num"></div>
+    <div>默认转义:{{strong}}</div>
+    <div>非转义 <span v-html="strong"></span></div>
+    
+    
+  </div>
+
+  <script>
+    //VM 实例
+    let vm = new Vue({
+      //选项
+      el: '#app',
+      data:{ //M
+        title:'数据展示(数据绑定)',
+        num:110,
+        arr:['apple','banana','orange','pear'],
+        arr2:[
+          {id:1,title:'xxx',des:'ooo'},
+          {id:2,title:'xxx2',des:'ooo2'}
+        ],
+        json:{a:1,b:2},
+        bl:false,
+        fn:function(){alert('ok')},
+        nu:null,
+        un:undefined,
+        strong:'<strong>徐怕</strong>'
+      }
+    });
+
+
+  </script>
+</body>
+
+</html>

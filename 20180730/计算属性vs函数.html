@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+
+<body>
+
+  <!-- V  -->
+  <div id="app">
+
+    <!-- 数据绑定 指令 -->
+
+    <h3>{{title}}</h3>
+
+    <div>结算属性:{{ cptStr }}</div>
+    <div>结算属性:{{ cptStr }}</div>
+    <div>结算属性:{{ cptStr }}</div>
+    <div>结算属性:{{ cptStr }}</div>
+    <div>结算属性:{{ cptStr }}</div>
+    <div>结算属性:{{ cptStr }}</div>
+    <div>结算属性:{{ cptStr }}</div>
+
+    <div>函数 {{ fn2() }}</div>
+    <div>函数 {{ fn2() }}</div>
+    <div>函数 {{ fn2() }}</div>
+    <div>函数 {{ fn2() }}</div>
+    <div>函数 {{ fn2() }}</div>
+    <div>函数 {{ fn2() }}</div>
+    <div>函数 {{ fn2() }}</div>
+
+  </div>
+
+  <script>
+    //VM 实例
+    let vm = new Vue({
+      //选项
+      el: '#app',
+      data: { //M
+        title: '列表渲染',
+        str: 'i love you',
+      },
+      computed: {
+        cptStr: function () {
+          console.log('计算属性');
+          return this.str.split(' ').reverse().join(' ');
+        }
+      },
+      methods: {
+        fn2: function () { 
+          console.log('函数');
+          return this.str.split(' ').reverse().join(' '); 
+        }
+      }
+    });
+
+
+  </script>
+</body>
+
+</html>

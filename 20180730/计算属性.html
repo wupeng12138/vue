@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+
+<body>
+
+  <!-- V  -->
+  <div id="app">
+
+    <!-- 数据绑定 指令 -->
+
+    <h3>{{title}}</h3>
+
+    <div>{{ cptStr }}</div>
+
+    <!-- <div>{{ fn2() }}</div> -->
+
+  </div>
+
+  <script>
+    //VM 实例
+    let vm = new Vue({
+      //选项
+      el: '#app',
+      data: { //M
+        title: '列表渲染',
+        num:100,
+        bl:true,
+        obj:{a:1},
+        str:'i love you',
+        fn:function(){return 'qq'}// 
+      },
+      computed: {
+        // 属性:函数 处理元数据/初始数据/data里面的变量、属性
+        cptStr:function(){ //计算属性一定要有返回值
+          console.log(this);// vm实例
+          console.log('计算属性运行了');
+          return this.str.split(' ').reverse().join(' ');
+        }
+      },
+      methods:{
+        fn2:function(){return '方法'}
+      }
+    });
+
+
+  </script>
+</body>
+
+</html>

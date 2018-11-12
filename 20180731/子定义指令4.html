@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-focus v-model="ipt">
+
+    </div>
+    
+</body>
+<script>
+
+    Vue.directive('focus',{
+        bind: function (el,binding) {
+            console.log('bind初次绑定到VDOM');
+        },
+        inserted(el,binding){
+            console.log('inserted插入到父节点时');
+            el.focus();     //页面加载完获焦
+        },
+        updated(){
+            console.log('数据更新时,模板更新时');
+        },
+        componentUpdated:()=>{
+            console.log('模板更新完毕');
+        }
+    })
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            ipt:''
+        }
+        
+    })
+
+
+</script>
+</html>

@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>微博</title>
+  <link href="style/weibo.css" rel="stylesheet" type="text/css" />
+  <script src="./js//vue.js"></script>
+  <script src="./js/vue-resource.js"></script>
+</head>
+
+<body>
+  <div class="znsArea">
+    <!--留言-->
+    <div class="takeComment">
+      <textarea v-model="ipt" name="textarea" class="takeTextField" id="tijiaoText"  @keyup.enter.exact="add"></textarea>
+      <div class="takeSbmComment">
+        <input type="button" class="inputs" value="" @click="add"/>
+        <span>(可按 Enter 回复)</span>
+      </div>
+    </div>
+    <!--已留-->
+    <div class="commentOn">
+      <div class="noContent" v-show="list.length==0">暂无留言</div>
+      <div class="messList">
+        <div class="reply" v-for="(item,index) of list" :key="item.id">
+          <p class="replyContent">{{item.content}}</p>
+          <p class="operation">
+            <span class="replyTime">{{item.time | date}}</span>
+            <span class="handle">
+              <a href="javascript:;" class="top" @click="acc(item.id,index)">{{item.acc}}</a>
+              <a href="javascript:;" class="down_icon" @click="ref(item.id,index)">{{item.ref}}</a>
+              <a href="javascript:;" class="cut" @click="del(item.id,index)">删除</a>
+            </span>
+          </p>
+        </div>
+      </div>
+      <div class="page">
+        <!-- <a href="javascript:;" class="active">1</a> -->
+        <a 
+          href="javascript:;" 
+          v-for="n of count" 
+          :class="{active: n==activePage }"
+          @click="get(n)"
+          >{{n}}</a>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    Vue.filter('date', function (data) {
+      let d = new Date();
+      let fillzero = n => n < 10 ? '0' + n : '' + n;
+      d.setTime(data * 1000);
+      let year = d.getFullYear();
+      let mon = d.getMonth() + 1;
+      let date = d.getDate();
+      let hour = d.getHours();
+      let min = d.getMinutes();
+      let sec = d.getSeconds();
+      return `${year}年${fillzero(mon)}月${fillzero(date)}日 ${fillzero(hour)}:${fillzero(min)}:${fillzero(sec)}`;
+    })
+
+    let vm = new Vue({
+      el: '.znsArea',
+      data: {
+        ipt: '',
+        list: [
+          // {id: 1, content: "内容1", time: 123123123, acc: 0, ref: 0},
+          // {id: 2, content: "内容2", time: 123123123, acc: 0, ref: 0},
+        ],
+        count: 0,
+        activePage:1
+      },
+      mounted() {
+        this.get(1);
+        this.getPageCount();
+      },
+      methods: {
+        acc(key,index){
+          // console.log(key);
+          this.$http({
+            url : `weibo.php`,
+            params:{
+              act: "acc",
+              id: key
+            }
+          }).then(
+            res => {
+              // console.log(res.body.error);
+              this.list[index].acc += res.body.error+1;
+            }
+          )
+        },
+        ref(key,index){
+          // console.log(key);
+          this.$http({
+            url : `weibo.php`,
+            params:{
+              act: "ref",
+              id: key
+            }
+          }).then(
+            res => {
+              // console.log(res.body.error);
+              this.list[index].ref += res.body.error+1;
+            }
+          )
+        },
+        add() {
+          this.$http({
+            url: `weibo.php`,
+            params: {
+              act: 'add',
+              content: this.ipt
+            }
+          }).then(
+            res => {
+              this.list.unshift({
+                id: res.body.id,
+                content: this.ipt,
+                time: res.body.time,
+                acc: 0,
+                ref: 0
+              });
+              // console.log(res);
+              // console.log(res.body.time);
+              // console.log(res.body.id);
+              this.ipt = '';
+            }
+          ); 
+          this.get(1);
+          this.getPageCount();
+        },
+        del(id, index) {
+          let bl = confirm('确定要删除?');
+          if (bl) {
+            this.$http({
+              url: `weibo.php`,
+              params: {
+                act: 'del',
+                id: id
+              }
+            }).then(
+              res => {
+                if(res.body.error==0){
+                  this.list.splice(index,1);
+                }
+              }
+            );
+          }
+        },
+        getPageCount(){
+          
+          this.$http({
+            url: `weibo.php`,
+            params: {
+              act: 'get_page_count'
+            }
+          }).then(
+            res => this.count = res.body.count,
+            // console.log(res)
+          );
+        },
+        get(n) {
+          this.activePage=n;
+          this.$http({
+            url: `weibo.php`,
+            params: {
+              act: 'get',
+              page: n
+            }
+          }).then(
+              res => this.list = res.body          
+          );
+        }
+      }
+    });
+
+  </script>
+</body>
+
+</html>

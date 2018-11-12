@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+
+<body>
+
+  <!-- V  -->
+  <div id="app">
+
+    <!-- 数据绑定 指令 -->
+
+    <h3>{{title}}</h3>
+
+    <img src="https://cn.vuejs.org/images/logo.png" alt="">
+    <img v-bind:src="src" alt="">
+    <img :src="src" alt="">
+    
+
+    
+  </div>
+
+  <script>
+    //VM 实例
+    let vm = new Vue({
+      //选项
+      el: '#app',
+      data:{ //M
+        title:'数据展示(数据绑定)',
+        num:110,
+        arr:['apple','banana','orange','pear'],
+        arr2:[
+          {id:1,title:'xxx',des:'ooo'},
+          {id:2,title:'xxx2',des:'ooo2'}
+        ],
+        json:{a:1,b:2},
+        bl:false,
+        fn:function(){alert('ok')},
+        nu:null,
+        un:undefined,
+        strong:'<strong>徐怕</strong>',
+        src:'https://cn.vuejs.org/images/logo.png'
+      }
+    });
+
+
+  </script>
+</body>
+
+</html>

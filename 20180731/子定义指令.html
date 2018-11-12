@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+<body>
+  
+  <div id="app">
+
+    <div v-color>box</div>
+    <div>box</div>
+    <div v-color="'yellow'">box</div>
+    <div v-color="'blue'">box</div>   <!--传参为color函数传参 -->
+
+  </div>
+
+  <script>
+
+    Vue.directive('color',function(el,binding){
+      console.log('指令被调用');
+      console.log(el,binding);//el==使用指令的原生元素,binding是指令传递参数
+      el.style.background=binding.value || 'red';   //有传参为传参内容,没有传参为red
+    });
+    
+    let vm = new Vue({
+      el:'#app'
+    })
+
+  </script>
+</body>
+</html>
